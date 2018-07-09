@@ -21,10 +21,21 @@ export default function(rootReducer, clearType) {
         return Object.assign({});
       case clearType:
         return Object.assign({});
+      default:
+        return state;
     }
   };
 
-  return combineReducers({ ...rootReducer, apiData: apiReducer });
+  return combineReducers({ apiData: apiReducer, root: rootReducer });
+  // return function combination(state = {}, action) {
+  //   const nextState = {};
+  //   const apiDataNextState = apiReducer(state, action);
+  //   const rootNextState = rootReducer(state, action);
+  //   return {
+  //     apiData: apiDataNextState,
+  //     ...rootNextState,
+  //   };
+  // };
 }
 
 export const isReduxIntegrated = () => reduxIntegrated;

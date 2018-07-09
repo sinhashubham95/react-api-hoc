@@ -9,8 +9,9 @@
 import React from 'react';
 import hoistStatics from 'hoist-non-react-statics';
 import Axios from 'axios';
-import { isReduxIntegrated } from './reducerUtils/enhanceReducers';
-import * as types from './reducerUtils/types';
+import { getStore } from '../reducerUtils/enhanceStore';
+import { isReduxIntegrated } from '../reducerUtils/enhanceReducer';
+import * as types from '../reducerUtils/types';
 
 export default function withAPIRequest(Component) {
   class ComponentWithAPIRequest extends React.Component {
@@ -24,10 +25,9 @@ export default function withAPIRequest(Component) {
     };
 
     componentDidMount() {
+      console.log(getStore());
       if (isReduxIntegrated) {
-        this.storeSubscription = this.context.store.subscribe(
-          this.handleChange
-        );
+        this.storeSubscription = getStore().subscribe(this.handleChange);
       }
     }
 
@@ -41,11 +41,12 @@ export default function withAPIRequest(Component) {
     data = null;
 
     handleChange = () => {
-      const currentState = this.context.store.getState().apiData;
+      const currentState = getStore().getState().apiData;
       let updated = true;
-      Object.keys(data).map(mData => {
+      Object.keys(this.data).map(mData => {
         if (
-          JSON.stringify(currentState[mData]) !== JSON.stringify(data[mData])
+          JSON.stringify(currentState[mData]) !==
+          JSON.stringify(this.data[mData])
         ) {
           updated = false;
         }
@@ -104,7 +105,7 @@ export default function withAPIRequest(Component) {
         }
         if (isReduxIntegrated) {
           this.data = mData;
-          this.context.store.dispatch({
+          getStore().dispatch({
             type: types.UPDATE_DATA,
             data: mData,
           });
@@ -119,7 +120,7 @@ export default function withAPIRequest(Component) {
         mData[reqKeys[0]] = error;
         if (isReduxIntegrated) {
           this.data = mData;
-          this.context.store.dispatch({
+          getStore().dispatch({
             type: types.UPDATE_DATA,
             data: mData,
           });
@@ -138,6 +139,7 @@ export default function withAPIRequest(Component) {
           loading={this.state.LOADING}
           data={this.state.DATA}
           currentLoadingId={this.state.CURRENT_ID}
+          apiRequest={this.apiRequest}
         />
       );
     }
