@@ -1,6 +1,6 @@
 {
   "name": "react-api-hoc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "This higher order component provides you with functions as props to make api calls and lets you know the status of you api call based on which you can change the rendering of your component.",
   "main": "src/index.js",
   "scripts": {
