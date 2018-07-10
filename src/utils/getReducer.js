@@ -6,7 +6,7 @@ let reduxIntegrated = false;
  * @param {string} clearType
  * It is the action type which will be used to clear the data in the reducer.
  */
-export default function(clearType) {
+export default function(clearType = 'EXIT_APP') {
   reduxIntegrated = true;
 
   const apiReducer = (state = {}, action) => {

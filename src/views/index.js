@@ -132,12 +132,23 @@ export default function withAPIRequest(Component) {
     };
 
     render() {
+      if (isReduxIntegrated) {
+        return (
+          <Component
+            {...this.props}
+            ref={this.props.onRef}
+            loading={this.state.LOADING}
+            currentLoadingId={this.state.CURRENT_ID}
+            apiRequest={this.apiRequest}
+          />
+        );
+      }
       return (
         <Component
           {...this.props}
           ref={this.props.onRef}
           loading={this.state.LOADING}
-          data={this.state.DATA}
+          apiData={this.state.DATA}
           currentLoadingId={this.state.CURRENT_ID}
           apiRequest={this.apiRequest}
         />
