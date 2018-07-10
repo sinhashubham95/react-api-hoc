@@ -9,9 +9,9 @@
 import React from 'react';
 import hoistStatics from 'hoist-non-react-statics';
 import Axios from 'axios';
-import { getStore } from '../reducerUtils/enhanceStore';
-import { isReduxIntegrated } from '../reducerUtils/enhanceReducer';
-import * as types from '../reducerUtils/types';
+import { getStore } from '../utils/enhanceStore';
+import { isReduxIntegrated } from '../utils/getReducer';
+import * as types from '../utils/types';
 
 export default function withAPIRequest(Component) {
   class ComponentWithAPIRequest extends React.Component {
